@@ -1,22 +1,17 @@
 package com.teckiz.asa.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import org.hibernate.sql.ast.tree.update.Assignment;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table
 public class User {
 
+    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate cohortStartDate;
     private String username;
     private String password;
-    private List<Assignment> assignments = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -48,13 +43,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
     }
 }
