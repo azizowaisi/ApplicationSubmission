@@ -1,6 +1,7 @@
 package com.teckiz.asa.domain;
 
 import jakarta.persistence.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Table
+@RequiredArgsConstructor
 public class User implements UserDetails {
 
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,26 +25,15 @@ public class User implements UserDetails {
     private Boolean credentialsNonExpired;
     private Boolean enabled;
     @Enumerated(EnumType.STRING)
-    private Role role;
-
-    public Long getId() {
-        return id;
-    }
+    private Role roles;
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public LocalDate getCohortStartDate() {
-        return cohortStartDate;
-    }
 
     public void setCohortStartDate(LocalDate cohortStartDate) {
         this.cohortStartDate = cohortStartDate;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -71,11 +62,17 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(roles.name()));
     }
 
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     public void setPassword(String password) {
